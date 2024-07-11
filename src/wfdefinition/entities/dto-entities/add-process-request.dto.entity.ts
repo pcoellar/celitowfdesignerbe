@@ -45,5 +45,5 @@ export class AddProcessRequestDto {
   @ApiProperty()
   nodes: AddProcessRequestNodeDto[];
   @ApiProperty()
-  sequence_flows: AddProcessRequestSecuenceFlowDto[];
+  sequenceFlows: AddProcessRequestSecuenceFlowDto[];
 }

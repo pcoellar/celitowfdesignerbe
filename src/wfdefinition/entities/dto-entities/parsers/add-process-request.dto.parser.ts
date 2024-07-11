@@ -9,11 +9,11 @@ export class AddProcessRequestParser {
   ParseToProcessProcessVersion(
     processRequest: AddProcessRequestDto,
   ): [ProcessEntity, ProcessVersionEntity] {
-    const process_version_id = uuidv4();
+    const processVersionId = uuidv4();
     const processEntity: ProcessEntity = {
       id: uuidv4(),
       name: processRequest.name,
-      currentVersion: process_version_id,
+      currentVersion: processVersionId,
       processVersions: [],
     };
 
@@ -21,14 +21,14 @@ export class AddProcessRequestParser {
     for (let i = 0; i < processRequest.nodes.length; i++) {
       nodes.push({
         ...processRequest.nodes[i],
-        processVersion: process_version_id,
+        processVersion: processVersionId,
       });
     }
-    const sequence_flows: SequenceFlowEntity[] = [];
-    for (let i = 0; i < processRequest.sequence_flows.length; i++) {
-      sequence_flows.push({
-        ...processRequest.sequence_flows[i],
-        processVersion: process_version_id,
+    const sequenceFlows: SequenceFlowEntity[] = [];
+    for (let i = 0; i < processRequest.sequenceFlows.length; i++) {
+      sequenceFlows.push({
+        ...processRequest.sequenceFlows[i],
+        processVersion: processVersionId,
         id: uuidv4(),
       });
     }
@@ -37,8 +37,8 @@ export class AddProcessRequestParser {
       version: 1,
       startNode: processRequest.startNode,
       nodes: nodes,
-      sequenceFlows: sequence_flows,
-      id: process_version_id,
+      sequenceFlows: sequenceFlows,
+      id: processVersionId,
     };
     return [processEntity, processVersionEntity];
   }
