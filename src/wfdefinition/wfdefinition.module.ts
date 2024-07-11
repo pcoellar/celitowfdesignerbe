@@ -29,6 +29,19 @@ import { GetProcessFlowService } from './business-logic-layer/usecases/process-f
 import { IApiService } from 'src/common/business-logic-layer/services/api/interfaces/api.interface';
 import { ApiService } from 'src/common/business-logic-layer/services/api/api.service';
 import { ConfigService } from '@nestjs/config';
+import { AddScriptService } from './business-logic-layer/usecases/script/add-script.service';
+import { IAddScriptService } from './business-logic-layer/usecases/interfaces/script/add-script.interface';
+import { IDeleteScriptService } from './business-logic-layer/usecases/interfaces/script/delete-script.interface';
+import { DeleteScriptService } from './business-logic-layer/usecases/script/delete-script.service';
+import { IGetAllScriptService } from './business-logic-layer/usecases/interfaces/script/get-all-script.interface';
+import { GetAllScriptService } from './business-logic-layer/usecases/script/get-all-script.service';
+import { IGetScriptService } from './business-logic-layer/usecases/interfaces/script/get-script.interface';
+import { GetScriptService } from './business-logic-layer/usecases/script/get-script.service';
+import { IUpdateScriptService } from './business-logic-layer/usecases/interfaces/script/update-script.interface';
+import { UpdateScriptService } from './business-logic-layer/usecases/script/update-script.service';
+import { IScriptRepositoryService } from './data-acces-layer/repositories/interfaces/script-repository.interface';
+import { ScriptRepositoryService } from './data-acces-layer/repositories/script-repository.service';
+import { ScriptController } from './presentation-layer/controllers/script.controller';
 
 @Module({
   imports: [
@@ -82,9 +95,33 @@ import { ConfigService } from '@nestjs/config';
       provide: IApiService,
       useClass: ApiService,
     },
+    {
+      provide: IAddScriptService,
+      useClass: AddScriptService,
+    },
+    {
+      provide: IDeleteScriptService,
+      useClass: DeleteScriptService,
+    },
+    {
+      provide: IGetAllScriptService,
+      useClass: GetAllScriptService,
+    },
+    {
+      provide: IGetScriptService,
+      useClass: GetScriptService,
+    },
+    {
+      provide: IUpdateScriptService,
+      useClass: UpdateScriptService,
+    },
+    {
+      provide: IScriptRepositoryService,
+      useClass: ScriptRepositoryService,
+    },
     ConfigService,
   ],
-  controllers: [ProcessController, ProcessVersionController],
+  controllers: [ProcessController, ProcessVersionController, ScriptController],
   exports: [],
 })
 export class WfdefinitionModule {}
