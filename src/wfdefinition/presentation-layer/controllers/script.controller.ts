@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Put, Param } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Put,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { IAddScriptService } from 'src/wfdefinition/business-logic-layer/usecases/interfaces/script/add-script.interface';
 import { IDeleteScriptService } from 'src/wfdefinition/business-logic-layer/usecases/interfaces/script/delete-script.interface';
@@ -42,5 +50,10 @@ export class ScriptController {
   async addScript(@Body() script: ScriptRequestDto) {
     const userCreated = await this.addScriptUseCase.execute(script);
     return userCreated;
+  }
+
+  @Delete()
+  async delete(@Param('id') id?: string) {
+    await this.deleteScriptUseCase.execute(id);
   }
 }
