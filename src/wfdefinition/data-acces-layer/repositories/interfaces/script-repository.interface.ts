@@ -9,9 +9,12 @@ export abstract class IScriptRepositoryService
     IDataWriterService<ScriptEntity>,
     IDataRemoverService
 {
-  abstract findAll(): Promise<ScriptEntity[]>;
-  abstract find(id: string): Promise<ScriptEntity>;
-  abstract findByFilter(filter: any): Promise<ScriptEntity[]>;
+  abstract findAll(relations?: string[]): Promise<ScriptEntity[]>;
+  abstract find(id: string, relations?: string[]): Promise<ScriptEntity>;
+  abstract findByFilter(
+    filter: any,
+    relations?: string[],
+  ): Promise<ScriptEntity[]>;
   abstract create(entity: ScriptEntity): Promise<ScriptEntity>;
   abstract update(entity: Partial<ScriptEntity>): Promise<ScriptEntity>;
   abstract delete(id: string);

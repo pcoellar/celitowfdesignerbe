@@ -7,9 +7,15 @@ export abstract class IProcessVersionRepositoryService
     IDataReaderService<ProcessVersionEntity>,
     IDataWriterService<ProcessVersionEntity>
 {
-  abstract findAll(): Promise<ProcessVersionEntity[]>;
-  abstract find(id: string): Promise<ProcessVersionEntity>;
-  abstract findByFilter(filter: any): Promise<ProcessVersionEntity[]>;
+  abstract findAll(relations?: string[]): Promise<ProcessVersionEntity[]>;
+  abstract find(
+    id: string,
+    relations?: string[],
+  ): Promise<ProcessVersionEntity>;
+  abstract findByFilter(
+    filter: any,
+    relations?: string[],
+  ): Promise<ProcessVersionEntity[]>;
   abstract create(entity: ProcessVersionEntity): Promise<ProcessVersionEntity>;
   abstract update(
     entity: Partial<ProcessVersionEntity>,

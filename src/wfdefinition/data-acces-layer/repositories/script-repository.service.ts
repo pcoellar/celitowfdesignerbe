@@ -12,8 +12,10 @@ export class ScriptRepositoryService implements IScriptRepositoryService {
     private readonly entityRepository: Repository<ScriptEntity>,
   ) {}
 
-  async findAll(): Promise<ScriptEntity[]> {
-    const entities: ScriptEntity[] = await this.entityRepository.find();
+  async findAll(relations?: string[]): Promise<ScriptEntity[]> {
+    const entities: ScriptEntity[] = await this.entityRepository.find({
+      relations: relations ?? [],
+    });
     return entities;
   }
 

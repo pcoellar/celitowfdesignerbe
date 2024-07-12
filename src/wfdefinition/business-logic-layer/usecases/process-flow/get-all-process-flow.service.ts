@@ -12,7 +12,11 @@ export class GetAllProcessFlowService implements IGetAllProcessFlowService {
   ) {}
   async execute(): Promise<ProcessVersionResponseDto[]> {
     const processesVersions: ProcessVersionEntity[] =
-      await this.processVersionRepositoryService.findAll();
+      await this.processVersionRepositoryService.findAll([
+        'nodes',
+        'sequenceFlows',
+        'process',
+      ]);
     const result: ProcessVersionResponseDto[] = [];
     for (let i = 0; i < processesVersions.length; i++) {
       const processVersionResponseParser = new ProcessVersionResponseParser();

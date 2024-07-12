@@ -12,22 +12,33 @@ export class ProcessRepositoryService implements IProcessRepositoryService {
     private readonly entityRepository: Repository<ProcessEntity>,
   ) {}
 
-  async findAll(): Promise<ProcessEntity[]> {
-    const entities: ProcessEntity[] = await this.entityRepository.find();
+  async findAll(relations?: string[]): Promise<ProcessEntity[]> {
+    const entities: ProcessEntity[] = await this.entityRepository.find({
+      relations: relations ?? [],
+    });
     return entities;
   }
 
-  async findByFilter(filter: any): Promise<ProcessEntity[]> {
+  async findByFilter(
+    filter: any,
+    relations?: string[],
+  ): Promise<ProcessEntity[]> {
     try {
-      return await this.entityRepository.find({ where: filter });
+      return await this.entityRepository.find({
+        where: filter,
+        relations: relations ?? [],
+      });
     } catch {
       throw new NotFoundException();
     }
   }
 
-  async find(id: string): Promise<ProcessEntity> {
+  async find(id: string, relations?: string[]): Promise<ProcessEntity> {
     try {
-      return await this.entityRepository.findOne({ where: { id } });
+      return await this.entityRepository.findOne({
+        where: { id },
+        relations: relations ?? [],
+      });
     } catch {
       throw new NotFoundException();
     }

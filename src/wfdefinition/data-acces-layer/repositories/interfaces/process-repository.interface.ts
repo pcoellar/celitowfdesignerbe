@@ -7,9 +7,12 @@ export abstract class IProcessRepositoryService
     IDataReaderService<ProcessEntity>,
     IDataWriterService<ProcessEntity>
 {
-  abstract findAll(): Promise<ProcessEntity[]>;
-  abstract find(id: string): Promise<ProcessEntity>;
-  abstract findByFilter(filter: any): Promise<ProcessEntity[]>;
+  abstract findAll(relations?: string[]): Promise<ProcessEntity[]>;
+  abstract find(id: string, relations?: string[]): Promise<ProcessEntity>;
+  abstract findByFilter(
+    filter: any,
+    relations?: string[],
+  ): Promise<ProcessEntity[]>;
   abstract create(entity: ProcessEntity): Promise<ProcessEntity>;
   abstract update(entity: Partial<ProcessEntity>): Promise<ProcessEntity>;
 }

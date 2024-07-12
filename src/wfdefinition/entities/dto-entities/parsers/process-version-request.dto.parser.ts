@@ -15,6 +15,7 @@ export class ProcessVersionRequestParser {
     const processVersionDB: ProcessVersionEntity =
       await this.processVersionRespositoryService.find(
         processVersionRequest.id,
+        ['nodes', 'sequenceFlows', 'process'],
       );
     if (!processVersionDB) {
       throw new NotFoundException();

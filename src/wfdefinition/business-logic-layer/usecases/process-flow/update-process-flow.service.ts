@@ -33,11 +33,14 @@ export class UpdateProcessFlowService implements IUpdateProcessFlowService {
   async CreateNewVersion(processVersionEntity: ProcessVersionEntity) {
     const newProcessVersionId = uuidv4();
     const processesVersionsDB =
-      await this.processVersionRepositoryService.findByFilter({
-        process: {
-          id: processVersionEntity.process.id,
+      await this.processVersionRepositoryService.findByFilter(
+        {
+          process: {
+            id: processVersionEntity.process.id,
+          },
         },
-      });
+        ['nodes', 'sequenceFlows', 'process'],
+      );
     let maxVersion = 0;
     for (let i = 0; i < processesVersionsDB.length; i++) {
       if (maxVersion < processesVersionsDB[i].version) {

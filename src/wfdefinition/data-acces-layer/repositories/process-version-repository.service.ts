@@ -19,29 +19,32 @@ export class ProcessVersionRepositoryService
     private readonly processRepository: Repository<ProcessEntity>,
   ) {}
 
-  async findAll(): Promise<ProcessVersionEntity[]> {
+  async findAll(relations?: string[]): Promise<ProcessVersionEntity[]> {
     const entities: ProcessVersionEntity[] = await this.entityRepository.find({
-      relations: ['nodes', 'sequenceFlows', 'process'],
+      relations: relations ?? [],
     });
     return entities;
   }
 
-  async findByFilter(filter: any): Promise<ProcessVersionEntity[]> {
+  async findByFilter(
+    filter: any,
+    relations?: string[],
+  ): Promise<ProcessVersionEntity[]> {
     try {
       return await this.entityRepository.find({
         where: filter,
-        relations: ['nodes', 'sequenceFlows', 'process'],
+        relations: relations ?? [],
       });
     } catch {
       throw new NotFoundException();
     }
   }
 
-  async find(id: string): Promise<ProcessVersionEntity> {
+  async find(id: string, relations?: string[]): Promise<ProcessVersionEntity> {
     try {
       return await this.entityRepository.findOne({
         where: { id },
-        relations: ['nodes', 'sequenceFlows', 'process'],
+        relations: relations ?? [],
       });
     } catch {
       throw new NotFoundException();
