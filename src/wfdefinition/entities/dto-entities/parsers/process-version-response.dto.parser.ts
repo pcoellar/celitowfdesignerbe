@@ -31,6 +31,7 @@ export class ProcessVersionResponseParser {
           id: processVersion.sequenceFlows[i].id,
           initNode: processVersion.sequenceFlows[i].initNode,
           endNode: processVersion.sequenceFlows[i].endNode,
+          condition: processVersion.sequenceFlows[i].condition,
           createdDate: processVersion.sequenceFlows[i].createdDate,
           lastModified: processVersion.sequenceFlows[i].lastModified,
         });

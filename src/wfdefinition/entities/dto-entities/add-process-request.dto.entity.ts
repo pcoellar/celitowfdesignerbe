@@ -31,6 +31,10 @@ export class AddProcessRequestSecuenceFlowDto {
   @ApiProperty()
   @IsString()
   endNode: string;
+
+  @ApiProperty()
+  @IsString()
+  condition?: string;
 }
 
 export class AddProcessRequestDto {

@@ -4,12 +4,16 @@ import { Repository } from 'typeorm';
 import { IScriptRepositoryService } from './interfaces/script-repository.interface';
 import { ScriptEntity } from 'src/wfdefinition/entities/data-entities/script.data.entity';
 import { AuditableFieldsManager } from 'src/common/business-logic-layer/services/audit/utils';
+import { ConfigService } from '@nestjs/config';
+import { IApiService } from 'src/common/business-logic-layer/services/api/interfaces/api.interface';
 
 @Injectable()
 export class ScriptRepositoryService implements IScriptRepositoryService {
   constructor(
     @InjectRepository(ScriptEntity)
     private readonly entityRepository: Repository<ScriptEntity>,
+    private readonly configService: ConfigService,
+    private readonly apiService: IApiService,
   ) {}
 
   async findAll(relations?: string[]): Promise<ScriptEntity[]> {
@@ -40,6 +44,10 @@ export class ScriptRepositoryService implements IScriptRepositoryService {
     entity = auditableFieldsManager.IncludeAuditableFieldsOnCreate(entity);
     const data = this.entityRepository.create(entity);
     const result = await this.entityRepository.save(data);
+
+    const wfEngineBaseUrl: string = this.configService.get('WFENGINE_BASE_URL');
+    await this.apiService.post(`${wfEngineBaseUrl}scripts`, result);
+
     return result;
   }
 
@@ -56,6 +64,10 @@ export class ScriptRepositoryService implements IScriptRepositoryService {
     };
     const result: ScriptEntity =
       await this.entityRepository.save(entityToModify);
+
+    const wfEngineBaseUrl: string = this.configService.get('WFENGINE_BASE_URL');
+    await this.apiService.put(`${wfEngineBaseUrl}scripts`, result);
+
     return result;
   }
 
@@ -65,5 +77,8 @@ export class ScriptRepositoryService implements IScriptRepositoryService {
       throw new NotFoundException();
     }
     await this.entityRepository.delete(id);
+
+    const wfEngineBaseUrl: string = this.configService.get('WFENGINE_BASE_URL');
+    await this.apiService.delete(`${wfEngineBaseUrl}scripts/${id}`);
   }
 }

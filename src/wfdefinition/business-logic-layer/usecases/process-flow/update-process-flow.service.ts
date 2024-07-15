@@ -86,6 +86,7 @@ export class UpdateProcessFlowService implements IUpdateProcessFlowService {
           processVersionEntity.sequenceFlows[i].endNode,
           nodesMap,
         ),
+        condition: processVersionEntity.sequenceFlows[i].condition,
       });
       newProcessVersion.sequenceFlows[i] =
         auditableFieldsManager.IncludeAuditableFieldsOnCreate(

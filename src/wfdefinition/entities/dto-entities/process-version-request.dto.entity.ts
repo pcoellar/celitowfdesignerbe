@@ -13,6 +13,7 @@ export class ProcessVersionSequenceFlowRequestDto {
   id: string;
   initNode: string;
   endNode: string;
+  condition?: string;
 }
 
 export class ProcessVersionRequestDto {

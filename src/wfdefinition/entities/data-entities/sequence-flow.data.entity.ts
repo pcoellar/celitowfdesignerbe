@@ -16,4 +16,7 @@ export class SequenceFlowEntity extends AuditableDataEntity {
   @ApiProperty()
   @Column('varchar', { length: 36, nullable: false })
   endNode: string;
+  @ApiProperty()
+  @Column('varchar', { nullable: true })
+  condition?: string;
 }

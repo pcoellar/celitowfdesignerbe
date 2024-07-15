@@ -51,6 +51,7 @@ export class ProcessVersionRequestParser {
           id: processVersionRequest.sequenceFlows[i].id,
           initNode: processVersionRequest.sequenceFlows[i].initNode,
           endNode: processVersionRequest.sequenceFlows[i].endNode,
+          condition: processVersionRequest.sequenceFlows[i].condition,
           processVersion: processVersion,
         });
       }
