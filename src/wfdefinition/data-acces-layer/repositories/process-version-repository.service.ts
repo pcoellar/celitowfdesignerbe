@@ -7,6 +7,8 @@ import { AuditableFieldsManager } from 'src/common/business-logic-layer/services
 import { NodeEntity } from 'src/wfdefinition/entities/data-entities/node.data.entity';
 import { SequenceFlowEntity } from 'src/wfdefinition/entities/data-entities/sequence-flow.data.entity';
 import { ProcessEntity } from 'src/wfdefinition/entities/data-entities/process.data.entity';
+import { ConfigService } from '@nestjs/config';
+import { ICacheService } from '../cache/interfaces/cache-service.interface';
 
 @Injectable()
 export class ProcessVersionRepositoryService
@@ -17,7 +19,16 @@ export class ProcessVersionRepositoryService
     private readonly entityRepository: Repository<ProcessVersionEntity>,
     @InjectRepository(ProcessEntity)
     private readonly processRepository: Repository<ProcessEntity>,
+    private readonly configService: ConfigService,
+    private readonly cacheService: ICacheService,
   ) {}
+
+  async saveToCache(entity: ProcessVersionEntity) {
+    const cacheClient = this.cacheService.createClient();
+    await this.cacheService.connect(cacheClient);
+    await this.cacheService.set(cacheClient, entity.id, JSON.stringify(entity));
+    await this.cacheService.disconnect(cacheClient);
+  }
 
   async findAll(relations?: string[]): Promise<ProcessVersionEntity[]> {
     const entities: ProcessVersionEntity[] = await this.entityRepository.find({
@@ -78,6 +89,7 @@ export class ProcessVersionRepositoryService
         );
       },
     );
+    this.saveToCache(result);
     return result;
   }
 
@@ -124,7 +136,7 @@ export class ProcessVersionRepositoryService
         );
       },
     );
-
+    this.saveToCache(result);
     return result;
   }
 }

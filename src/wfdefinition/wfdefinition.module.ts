@@ -42,6 +42,8 @@ import { UpdateScriptService } from './business-logic-layer/usecases/script/upda
 import { IScriptRepositoryService } from './data-acces-layer/repositories/interfaces/script-repository.interface';
 import { ScriptRepositoryService } from './data-acces-layer/repositories/script-repository.service';
 import { ScriptController } from './presentation-layer/controllers/script.controller';
+import { ICacheService } from './data-acces-layer/cache/interfaces/cache-service.interface';
+import { CacheService } from './data-acces-layer/cache/cache-service.service';
 
 @Module({
   imports: [
@@ -118,6 +120,10 @@ import { ScriptController } from './presentation-layer/controllers/script.contro
     {
       provide: IScriptRepositoryService,
       useClass: ScriptRepositoryService,
+    },
+    {
+      provide: ICacheService,
+      useClass: CacheService,
     },
     ConfigService,
   ],
