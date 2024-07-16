@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { IProcessRepositoryService } from './interfaces/process-repository.interface';
 import { ProcessEntity } from 'src/wfdefinition/entities/data-entities/process.data.entity';
 import { AuditableFieldsManager } from 'src/common/business-logic-layer/services/audit/utils';
-import { ConfigService } from '@nestjs/config';
 import { ICacheService } from '../cache/interfaces/cache-service.interface';
 
 @Injectable()
@@ -12,7 +11,6 @@ export class ProcessRepositoryService implements IProcessRepositoryService {
   constructor(
     @InjectRepository(ProcessEntity)
     private readonly entityRepository: Repository<ProcessEntity>,
-    private readonly configService: ConfigService,
     private readonly cacheService: ICacheService,
   ) {}
 
@@ -49,10 +47,7 @@ export class ProcessRepositoryService implements IProcessRepositoryService {
   }
 
   async saveToCache(entity: ProcessEntity) {
-    const cacheClient = this.cacheService.createClient();
-    await this.cacheService.connect(cacheClient);
-    await this.cacheService.set(cacheClient, entity.id, JSON.stringify(entity));
-    await this.cacheService.disconnect(cacheClient);
+    await this.cacheService.set(entity.id, JSON.stringify(entity));
   }
 
   async create(entity: ProcessEntity): Promise<ProcessEntity> {
